@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Plus,
   Sparkles,
+  X,
 } from "lucide-react";
 
 const navItems = [
@@ -41,24 +42,33 @@ const createItems = [
   },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col">
+    <aside className="w-64 h-full min-h-screen bg-white border-r border-gray-200 flex flex-col">
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-gray-200">
         <div className="w-9 h-9 rounded-md bg-[#3d2b1f] flex items-center justify-center flex-shrink-0">
-          {/* GE hands icon approximation */}
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
             <path d="M5 14c0-1 1-2 2-2h3l2-3h3c1 0 2 1 2 2v2c0 1-1 2-2 2H7c-1 0-2-1-2-2z" fill="#c9a96e" />
             <path d="M5 10c0-1 .8-1.5 2-1l5 2" stroke="#c9a96e" strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </div>
-        <div>
+        <div className="flex-1">
           <div className="font-semibold text-sm text-gray-900 leading-tight">Sarafu Network</div>
           <div className="text-xs text-gray-500">prototype</div>
         </div>
+        {/* Close button — mobile only */}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+            aria-label="Close menu"
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
 
       {/* Mock user bar */}
@@ -78,6 +88,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                 active
                   ? "bg-green-50 text-green-700 font-medium"
@@ -102,6 +113,7 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={onClose}
                 className={`flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors group ${
                   active
                     ? item.highlight
